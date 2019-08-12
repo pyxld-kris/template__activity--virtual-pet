@@ -25,6 +25,13 @@ export default class Animal {
       .setMaxVelocity(200, 400);
 
     this.sprite.anims.play("pet-idle", true);
+
+    // Let's make something happen when we click on this animal
+    this.sprite
+      .setInteractive()
+      .on("pointerdown", function(pointer, localX, localY, event) {
+        this.scene.physics.add.sprite(50, 10, "meat");
+      });
   }
 
   update() {

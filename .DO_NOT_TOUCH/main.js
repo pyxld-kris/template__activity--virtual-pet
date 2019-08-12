@@ -12,6 +12,7 @@ class PlayScene extends Phaser.Scene {
     this.load.image("sky", "/.DO_NOT_TOUCH/assets/sky.png");
     this.load.image("ground", "/.DO_NOT_TOUCH/assets/ground.png");
     this.load.image("cloud", "/.DO_NOT_TOUCH/assets/cloud.png");
+    this.load.image("meat", "/.DO_NOT_TOUCH/assets/meat.png");
 
     // Load the pet's spritesheet
     this.load.spritesheet("pet", "/.DO_NOT_TOUCH/assets/pet.png", {
