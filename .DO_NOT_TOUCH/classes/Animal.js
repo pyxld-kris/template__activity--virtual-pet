@@ -29,6 +29,7 @@ export default class Animal {
     // Let's make something happen when we click on this animal
     this.sprite
       .setInteractive()
+      .setOrigin() // fixes interactive offset issue
       .on("pointerdown", function(pointer, localX, localY, event) {
         this.scene.physics.add.sprite(50, 10, "meat");
       });

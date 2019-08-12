@@ -1,8 +1,9 @@
 import Phaser from "phaser";
 
 import Animal from "/.DO_NOT_TOUCH/classes/Animal.js";
+import Ball from "/.DO_NOT_TOUCH/classes/Ball.js";
 
-import { createPet, createPlatforms, createGoal } from "/modify.js";
+import { createPet } from "/modify.js";
 
 import Instruction from "./classes/Instruction";
 import InstructionSequence from "./classes/InstructionSequence";
@@ -13,6 +14,7 @@ class PlayScene extends Phaser.Scene {
     this.load.image("ground", "/.DO_NOT_TOUCH/assets/ground.png");
     this.load.image("cloud", "/.DO_NOT_TOUCH/assets/cloud.png");
     this.load.image("meat", "/.DO_NOT_TOUCH/assets/meat.png");
+    this.load.image("ball", "/.DO_NOT_TOUCH/assets/ball.png");
 
     // Load the pet's spritesheet
     this.load.spritesheet("pet", "/.DO_NOT_TOUCH/assets/pet.png", {
@@ -39,9 +41,13 @@ class PlayScene extends Phaser.Scene {
 
     // Create pet
     createPet.call(this);
-    createGoal.call(this);
+
+    // Create the ball
+    this.ball = new Ball(this, 50, 10);
 
     this.physics.add.collider(this.pet.sprite, this.ground);
+    this.physics.add.collider(this.ball.sprite, this.ground);
+    this.physics.add.collider(this.pet.sprite, this.ball.sprite);
 
     const camera = this.cameras.main;
     const cursors = this.input.keyboard.createCursorKeys();
