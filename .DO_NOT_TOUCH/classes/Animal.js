@@ -6,25 +6,25 @@ export default class Animal {
     const anims = scene.anims;
 
     anims.create({
-      key: "johnny-idle",
-      frames: anims.generateFrameNumbers("johnny", { start: 0, end: 3 }),
+      key: "pet-idle",
+      frames: anims.generateFrameNumbers("pet", { start: 0, end: 0 }),
       frameRate: 3,
       repeat: -1
     });
 
     anims.create({
-      key: "johnny-walk",
-      frames: anims.generateFrameNumbers("johnny", { start: 5, end: 7 }),
+      key: "pet-walk",
+      frames: anims.generateFrameNumbers("pet", { start: 1, end: 1 }),
       frameRate: 12,
       repeat: -1
     }); // Create the physics-based sprite that we will move around and animate
 
     this.sprite = scene.physics.add
-      .sprite(x, y, "johnny", 0)
+      .sprite(x, y, "pet", 0)
       .setDrag(500, 0)
       .setMaxVelocity(200, 400);
 
-    this.sprite.anims.play("johnny-idle", true);
+    this.sprite.anims.play("pet-idle", true);
   }
 
   update() {
@@ -35,6 +35,16 @@ export default class Animal {
       } else {
         this.sprite.setVelocity(-100, 0);
       }
+    }
+
+    if (this.sprite.body.velocity.x > 0) {
+      this.sprite.anims.play("pet-walk", true);
+      this.sprite.flipX = false;
+    } else if (this.sprite.body.velocity.x < 0) {
+      this.sprite.anims.play("pet-walk", true);
+      this.sprite.flipX = true;
+    } else {
+      this.sprite.anims.play("pet-idle", true);
     }
   }
 

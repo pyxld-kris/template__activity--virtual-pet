@@ -12,48 +12,34 @@
 	<title>Dev Launchers</title>
 
 	<style>
-		html,
+		@import url('https://fonts.googleapis.com/css?family=VT323&display=swap');
+		@import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');		html,
 		body,
 		#game-container {
-
 			margin: 0;
-
 			padding: 0;
-
 		}
 
 
 
 		body {
-
 			background-color:black;
-
 			color:white;
-  font-family: 'Press Start 2P', cursive;
-
 		}
 
 
 
 		#page-header {
-
 			width:100%;
-
 			margin-top:5%;
-
 			text-align:center;
-
 			font-size:2.5em;
-
+  		font-family: 'Press Start 2P', cursive;
 		}
 
 
 
 		#game-container {
-
-			min-width: 100vw;
-
-			//min-height: 100vh;
 
 			display: flex;
 
@@ -62,14 +48,39 @@
 			justify-content: center;
 
 			margin-top:5%;
+			width:100%;
+			max-width:100vh;
+			margin-left:auto;
+			margin-right:auto;
 		}
 
 
 
 		#game-container>canvas {
-
 			border-radius: 5px;
+			width:90%;
+		}
 
+
+		@media screen and (max-width:550px) {
+			/* 
+			This media query is meant to fix a weird codesandbox
+			 	window size issue. It should make the game stay
+				in view better while it's being worked on in codesandbox
+			*/
+			#page-header {
+				font-size:2em;
+				width:50%;
+				margin-left:0;
+			}
+			#game-container {
+				margin-left:0;
+				justify-content:left;
+			}
+			#game-container>canvas {
+				border-radius: 5px;
+				width:60%;
+			}
 		}
 
 	</style>

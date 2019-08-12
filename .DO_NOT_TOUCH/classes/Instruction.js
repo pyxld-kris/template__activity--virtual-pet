@@ -13,15 +13,18 @@ export default class Instruction {
     let halfScreenWidth = scene.game.config.width / 2;
     let halfScreenHeight = scene.game.config.height / 2;
     this.text = scene.add
-      .text(halfScreenWidth, 0, this.instructionString, {
-        font: "10px monospace",
-        fill: "#ffffff",
+      .text(halfScreenWidth, -10, this.instructionString, {
+        fontSize: "16px",
+        fontFamily: '"Press Start 2P"',
+        fill: "#000000",
         align: "center",
         padding: { x: 1, y: 1 },
         backgroundColor: "transparent"
       })
+      .setOrigin(0.5, 0)
       .setScrollFactor(0)
-      .setOrigin(0.5);
+      .setResolution(3) // Makes text more crisp
+      .setScale(0.5); // Makes text more crisp
 
     this.textTween = scene.tweens.add({
       targets: this.text,
