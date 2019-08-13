@@ -3,6 +3,9 @@ import Phaser from "phaser";
 export default class Ball extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y);
+
+    console.log("creating ball - " + x);
+
     this.scene = scene;
 
     this.sprite = scene.physics.add
@@ -20,26 +23,7 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
       });
   }
 
-  update() {
-    if (Math.random() < 0.02) {
-      var leftOrRight = Math.random();
-      if (leftOrRight < 0.5) {
-        this.sprite.setVelocity(100, 0);
-      } else {
-        this.sprite.setVelocity(-100, 0);
-      }
-    }
-
-    if (this.sprite.body.velocity.x > 0) {
-      this.sprite.anims.play("pet-walk", true);
-      this.sprite.flipX = false;
-    } else if (this.sprite.body.velocity.x < 0) {
-      this.sprite.anims.play("pet-walk", true);
-      this.sprite.flipX = true;
-    } else {
-      this.sprite.anims.play("pet-idle", true);
-    }
-  }
+  update() {}
 
   destroy() {
     this.sprite.destroy();

@@ -3,10 +3,30 @@ import Phaser from "phaser";
 import Animal from "/.DO_NOT_TOUCH/classes/Animal.js";
 import Ball from "/.DO_NOT_TOUCH/classes/Ball.js";
 
-import { createPet } from "/modify.js";
-
 import Instruction from "./classes/Instruction";
 import InstructionSequence from "./classes/InstructionSequence";
+
+/* Lift classes to global scope */
+(function() {
+  // We have to lift classes we need access to to the
+  //   global scope (stupid module scoping issue)
+  // This is done so students can code in a clean script file (without
+  //    having to use imports/exports, etc.)
+  window.Animal = Animal;
+  window.Ball = Ball;
+})();
+
+/*
+ * evalWithinContext()
+ * Allows a string of javascript code to be executed within the given scope/context
+ * Used after fetching student code in order to run it within the current Phaser scene
+ *     (Keeps student coding interface clean)
+ */
+var evalWithinContext = function(context, code) {
+  (function(code) {
+    eval(code);
+  }.apply(context, [code]));
+};
 
 class PlayScene extends Phaser.Scene {
   preload() {
@@ -25,6 +45,12 @@ class PlayScene extends Phaser.Scene {
     });
   }
 
+  // This function creates a pet and adds it to the scene
+  createPet() {
+    this.pet = new Animal(this, 30, 10);
+    this.pet.sprite.setCollideWorldBounds(true);
+  }
+
   create() {
     let halfGameWidth = this.game.config.width / 2;
     let halfGameHeight = this.game.config.height / 2;
@@ -40,7 +66,7 @@ class PlayScene extends Phaser.Scene {
     this.cloudRight = this.add.sprite(150, 5, "cloud");
 
     // Create pet
-    createPet.call(this);
+    this.createPet();
 
     // Create the ball
     this.ball = new Ball(this, 50, 10);
@@ -70,12 +96,14 @@ class PlayScene extends Phaser.Scene {
       .setOrigin(0.5, 0)
       .setScrollFactor(0)
       .setResolution(3) // Makes text more crisp
-      .setScale(0.45); // Makes text more crisp
+      .setScale(0.5); // Makes text more crisp
 
     new InstructionSequence(this, [
       new Instruction(this, "This is your new pet", 2000),
       new Instruction(this, "Code to care for it", 2000)
     ]);
+
+    this.loadModifyCode();
   }
 
   update(time, delta) {
@@ -92,6 +120,22 @@ class PlayScene extends Phaser.Scene {
     rect = this.physics.add.existing(rect, true);
 
     return rect;
+  }
+
+  loadModifyCode() {
+    // Let's load the modify.js script and run it in this scope!
+    // using this method instead of import to maintain scene scope and keep import/export
+    //    out of the modify.js script. More simple for students to work with
+    /* eslint-disable */
+    var scene = this;
+    let codeText = fetch("../modify.mjs")
+      .then(function(response) {
+        return response.text();
+      })
+      .then(function(textString) {
+        evalWithinContext(scene, textString);
+      });
+    /* eslint-enable */
   }
 
   /* </End> Helper functions added by kris */
